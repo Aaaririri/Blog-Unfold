@@ -1,0 +1,30 @@
+{% extends 'blog/base.html' %}
+{% block title %}Plano de Estudos{% endblock %}
+{% block content %}
+<style>
+  .barra{background:#eee;border-radius:6px;height:10px;overflow:hidden}
+  .barra span{display:block;height:100%;background:#4f46e5}
+  .topico{border-left:3px solid #ddd;padding-left:1rem;margin:1rem 0}
+  .topico.concluido{border-color:#16a34a}.topico.andamento{border-color:#f59e0b}
+  .tag{font-size:.75rem;padding:.1rem .5rem;border-radius:999px;background:#eee}
+</style>
+<h1>Plano de Estudos</h1>
+{% for plano in planos %}
+<section>
+  <h2>{{ plano.titulo }} <span class="meta">{{ plano.progresso }}%</span></h2>
+  <div class="barra"><span style="width:{{ plano.progresso }}%"></span></div>
+  <p>{{ plano.descricao|linebreaksbr }}</p>
+  {% for t in plano.topicos.all %}
+  <div class="topico {{ t.status }}">
+    <strong>{% if t.link %}<a href="{{ t.link }}">{{ t.titulo }}</a>{% else %}{{ t.titulo }}{% endif %}</strong>
+    <span class="tag">{{ t.get_status_display }}</span>
+    <p class="meta">{% if t.inicio %}{{ t.inicio|date:"d/m/Y" }}{% endif %}{% if t.fim %} → {{ t.fim|date:"d/m/Y" }}{% endif %}</p>
+    <div class="barra"><span style="width:{{ t.progresso }}%"></span></div>
+    <p>{{ t.descricao|linebreaksbr }}</p>
+  </div>
+  {% endfor %}
+</section>
+{% empty %}
+<p>Nenhum plano cadastrado ainda.</p>
+{% endfor %}
+{% endblock %}
