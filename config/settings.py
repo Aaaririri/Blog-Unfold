@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -141,3 +142,5 @@ UNFOLD = {
         'show_all_applications': True,
     },
 }
+
+SITE_BASE_PATH = os.environ.get('SITE_BASE_PATH', '')

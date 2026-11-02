@@ -219,3 +219,6 @@ __marimo__/
 
 .venv/
 db.sqlite3
+
+# site estático gerado
+dist/
