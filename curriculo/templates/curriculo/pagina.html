@@ -1,0 +1,38 @@
+{% extends 'blog/base.html' %}
+{% block title %}Currículo{% endblock %}
+{% block content %}
+{% if c %}
+<header>
+  {% if c.foto %}<img src="{{ c.foto.url }}" alt="{{ c.nome }}" style="width:120px;border-radius:50%">{% endif %}
+  <h1>{{ c.nome }}</h1>
+  <p class="meta">{{ c.titulo }}</p>
+  <p>
+    {% if c.email %}<a href="mailto:{{ c.email }}">{{ c.email }}</a> {% endif %}
+    {% if c.github %}<a href="{{ c.github }}">GitHub</a> {% endif %}
+    {% if c.linkedin %}<a href="{{ c.linkedin }}">LinkedIn</a> {% endif %}
+    {% if c.pdf %}<a href="{{ c.pdf.url }}" download>Baixar PDF</a>{% endif %}
+  </p>
+  <p>{{ c.resumo|linebreaksbr }}</p>
+</header>
+{% if c.experiencias.all %}<h2>Experiência</h2>
+{% for e in c.experiencias.all %}
+  <h3>{{ e.cargo }} · {{ e.empresa }}</h3>
+  <p class="meta">{{ e.inicio|date:"m/Y" }} - {% if e.fim %}{{ e.fim|date:"m/Y" }}{% else %}atual{% endif %}</p>
+  <p>{{ e.descricao|linebreaksbr }}</p>
+{% endfor %}{% endif %}
+{% if c.formacoes.all %}<h2>Formação</h2>
+{% for f in c.formacoes.all %}
+  <h3>{{ f.curso }} · {{ f.instituicao }}</h3>
+  <p class="meta">{{ f.inicio|date:"Y" }} - {% if f.fim %}{{ f.fim|date:"Y" }}{% else %}em andamento{% endif %}</p>
+{% endfor %}{% endif %}
+{% if c.habilidades.all %}<h2>Habilidades</h2>
+<p>{% for h in c.habilidades.all %}{{ h.nome }}{% if not forloop.last %} · {% endif %}{% endfor %}</p>{% endif %}
+{% if c.projetos.all %}<h2>Projetos</h2>
+{% for p in c.projetos.all %}
+  <h3>{% if p.link %}<a href="{{ p.link }}">{{ p.nome }}</a>{% else %}{{ p.nome }}{% endif %}</h3>
+  <p>{{ p.descricao|linebreaksbr }}</p>
+{% endfor %}{% endif %}
+{% else %}
+<p>Currículo ainda não cadastrado.</p>
+{% endif %}
+{% endblock %}
